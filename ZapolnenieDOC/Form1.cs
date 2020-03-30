@@ -15,7 +15,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using DataTable = System.Data.DataTable;
-using System.Data.Entity;
 
 namespace ZapolnenieDOC
 {
