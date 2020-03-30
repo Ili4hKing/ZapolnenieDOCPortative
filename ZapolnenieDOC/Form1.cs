@@ -464,8 +464,7 @@ namespace ZapolnenieDOC
 
         private void button4_Click(object sender, EventArgs e)
         {
-            using (TexnikymBDEntities db = new TexnikymBDEntities())
-            {
+            
                 object missing = Type.Missing;
 
 
@@ -490,7 +489,7 @@ namespace ZapolnenieDOC
 
 
 
-                    List<ШаблонГруппы> ShabloniGr = new List<ШаблонГруппы>();
+                    
                     Word.Table table = document.Tables[y];
                     
 
@@ -559,9 +558,9 @@ namespace ZapolnenieDOC
 
 
 
-            }
-
         }
+
+        
 
 
 
@@ -578,8 +577,7 @@ namespace ZapolnenieDOC
 
         private void button5_Click(object sender, EventArgs e)
         {
-            using (TexnikymBDEntities db = new TexnikymBDEntities())
-            {
+            
                 object missing = Type.Missing;
 
 
@@ -601,7 +599,7 @@ namespace ZapolnenieDOC
                 for (int y = 1; y <= countTable; y++)
                 {
 
-                    List<Студенты2> ShabloniGr = new List<Студенты2>();
+                    
                     Word.Table table = document.Tables[y];
 
                     if (table.Rows.Count > 0 && table.Columns.Count > 0)
@@ -674,7 +672,7 @@ namespace ZapolnenieDOC
                 MessageBox.Show("Данные помещены");
 
             }
-        }
+        
 
         private void textBox2_Click(object sender, EventArgs e)
         {
