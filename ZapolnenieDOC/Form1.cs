@@ -367,7 +367,7 @@ namespace ZapolnenieDOC
         {
             object missing = Type.Missing;
 
-            
+            progressBar3.Value = 0;
                 
                 int t = 0;
                 int i = 0;
@@ -379,8 +379,10 @@ namespace ZapolnenieDOC
 
                 }
 
-                // Открываем приложение
-                application = new Application
+            progressBar3.Maximum = t;
+            
+            // Открываем приложение
+            application = new Application
 
 
 
@@ -416,7 +418,7 @@ namespace ZapolnenieDOC
 
                     if (i < t)
                     {   DateTime date = Convert.ToDateTime(row.Cells[2].Value.ToString());
-                        string s1 = date.ToString("MM/dd/yyyy");
+                        string s1 = date.ToString("dd/MM/yyyy");
                         i++;
                         worksheet.Cells[i + 1, 1].Value = row.Cells[0].Value.ToString(); 
                         worksheet.Cells[i + 1, 2].Value = row.Cells[1].Value.ToString();
@@ -426,7 +428,7 @@ namespace ZapolnenieDOC
                         worksheet.Cells[i + 1, 6].Value = row.Cells[5].Value.ToString();
                         worksheet.Cells[i + 1, 7].Value = row.Cells[6].Value.ToString();
                         worksheet.Cells[i + 1, 8].Value = row.Cells[7].Value.ToString();
-
+                        progressBar3.Value++;
                     }
                 }
                 // Показываем приложение
