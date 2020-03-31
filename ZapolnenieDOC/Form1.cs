@@ -69,6 +69,7 @@ namespace ZapolnenieDOC
             var someList = new List<string>();
             DataTable dataTable = new DataTable();
             List<Person> persons = new List<Person>();
+            List<NekorektData> nekorektDatas = new List<NekorektData>();
 
             foreach (DataGridViewRow row2 in dataGridView1.Rows)
             {
@@ -76,49 +77,52 @@ namespace ZapolnenieDOC
                 string searchValue = row2.Cells[1].Value.ToString();
                 string tr = row2.Cells[6].Value.ToString();
 
-                string tlFio = searchValue;
-                string[] c = tlFio.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                string q = c[0] + " " + c[1] + " " + c[2];
-
-                DateTime d = Convert.ToDateTime(row2.Cells[2].Value.ToString());
-
-
-                dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 try
                 {
-                    foreach (DataGridViewRow row in dataGridView2.Rows)
-                    {
-                        string rr = row.Cells[1].Value.ToString();
-                        string tlFio2 = rr;
-                        string[] r = tlFio2.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        string p = r[0] + " " + r[1] + " " + r[2];
+                    string tlFio = searchValue;
+                    string[] c = tlFio.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string q = c[0] + " " + c[1] + " " + c[2];
 
-                        DateTime t = Convert.ToDateTime(row.Cells[2].Value.ToString());
+                    DateTime d = Convert.ToDateTime(row2.Cells[2].Value.ToString());
 
-                        if (p.Equals(q) && t == d)
+
+                    dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    
+                        foreach (DataGridViewRow row in dataGridView2.Rows)
                         {
+                            string rr = row.Cells[1].Value.ToString();
+                            string tlFio2 = rr;
+                            string[] r = tlFio2.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            string p = r[0] + " " + r[1] + " " + r[2];
 
+                            DateTime t = Convert.ToDateTime(row.Cells[2].Value.ToString());
 
-                            if (string.IsNullOrEmpty(tr) || tr == " ")
+                            if (p.Equals(q) && t == d)
                             {
-                                row2.Cells[6].Value = row.Cells[3].Value.ToString();
-                                Person person = new Person
+
+
+                                if (string.IsNullOrEmpty(tr) || tr == " ")
                                 {
-                                    FIO = searchValue,
-                                    DateBirdhsday = d
+                                    row2.Cells[6].Value = row.Cells[3].Value.ToString();
+                                    Person person = new Person
+                                    {
+                                        FIO = searchValue,
+                                        DateBirdhsday = d
 
-                                };
-                                persons.Add(person);
+                                    };
+                                    persons.Add(person);
+                                }
+
                             }
-
                         }
-                    }
                 }
-                catch (Exception exc)
+                catch
                 {
-                    MessageBox.Show(exc.Message);
+                   
                 }
+        
 
+                
 
 
 
@@ -130,7 +134,7 @@ namespace ZapolnenieDOC
                 string tr = row22.Cells[6].Value.ToString();
                 DateTime d = Convert.ToDateTime(row22.Cells[2].Value.ToString());
 
-                List<NekorektData> nekorektDatas = new List<NekorektData>();
+               
 
                 if (string.IsNullOrEmpty(tr) || tr == " ")
                 {
@@ -141,14 +145,7 @@ namespace ZapolnenieDOC
                     };
                     nekorektDatas.Add(nekorektData);
                 }
-                if (nekorektDatas.Count > 0)
-                {
-                    foreach (NekorektData l in nekorektDatas)
-                    {
-                        listBox2.Items.Add("ФИО " + l.FIO + " Дата рождения " + l.DateBirdhsday);
-                    }
-
-                }
+                
 
                 for (int i = 0; i < dataGridView1.Columns.Count && someList.Count != dataGridView1.Columns.Count; i++)
                 {
@@ -168,6 +165,15 @@ namespace ZapolnenieDOC
                 }
                 dataTable.Rows.Add(rrt);
 
+
+            }
+
+            if (nekorektDatas.Count > 0)
+            {
+                foreach (NekorektData l in nekorektDatas)
+                {
+                    listBox2.Items.Add("ФИО " + l.FIO + " Дата рождения " + l.DateBirdhsday);
+                }
 
             }
 
@@ -247,7 +253,7 @@ namespace ZapolnenieDOC
                     for (int j = 0; j < dataGridView1.Columns.Count; j++)
                     {
                         string tt = Convert.ToString(dataGridView1[j , i ].Value);
-                        row[j] = tt.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "");
+                        row[j] = tt.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "").Replace("\v", " ");
                     }
                     string tlFio = row[1];
                     string[] b = tlFio.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -327,7 +333,7 @@ namespace ZapolnenieDOC
                     for (int j = 0; j < dataGridView3.Columns.Count; j++)
                     {
                         string tt = Convert.ToString(dataGridView3[j, i].Value);
-                        row[j] = tt.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "");
+                        row[j] = tt.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "").Replace("\v", " ");
                     }
 
 
@@ -482,8 +488,8 @@ namespace ZapolnenieDOC
 
                 var someList = new List<string>();
                 DataTable dataTable = new DataTable();
-
-                for (int y = 1; y <= countTable; y++)
+                progressBar1.Value = 0;
+            for (int y = 1; y <= countTable; y++)
                 {
 
 
@@ -499,13 +505,14 @@ namespace ZapolnenieDOC
                         for (int i = 0; i < table.Columns.Count && someList.Count != table.Columns.Count; i++)
                         {
                             dataTable.Columns.Add();
-                            someList.Add(table.Cell(1, i + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", ""));
+                            someList.Add(table.Cell(1, i + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "").Replace("\v", " "));
 
                         }
 
                         for (int i = 0; i < table.Columns.Count; i++)
                         {
-                            progressBar1.Maximum = (countTable ) * table.Columns.Count;
+                        
+                        progressBar1.Maximum = (countTable ) * table.Columns.Count;
                             progressBar1.Value++;
 
 
@@ -514,13 +521,21 @@ namespace ZapolnenieDOC
                         {
                             string[] row = new string[table.Columns.Count];
                             for (int j = 0; j < table.Columns.Count; j++)
-                                row[j] = table.Cell(i + 2, j + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "");
+                                row[j] = table.Cell(i + 2, j + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "").Replace("\v", " ");
 
 
 
+                        
+                        
                             DateTime d;
                             string dateConv = row[2].Replace("\a", "");
                             string tlFio = dateConv;
+                        if (string.IsNullOrEmpty(tlFio) || tlFio == " ")
+                        {
+                            tlFio = "0001-01-01 00:00:00.000";
+                        }
+                        try
+                        {
                             string[] b = tlFio.Split(new char[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
                             string o = b[0] + "." + b[1] + "." + b[2];
 
@@ -528,12 +543,18 @@ namespace ZapolnenieDOC
 
                                 d = Convert.ToDateTime(o);
                             else
-                                o = "2000-01-01 00:00:00.000";// Если дата введена не коретно то вводиться это число
+                                o = "0001-01-01 00:00:00.000";// Если дата введена не коретно то вводиться это число
                             d = Convert.ToDateTime(o);
 
                             row[2] = Convert.ToString(d);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("данные у пользователя: " + row[1] + "неверные ");
+                        }
 
-                            dataTable.Rows.Add(row);
+                        dataTable.Rows.Add(row);
+                            
                         }
                        
 
@@ -594,8 +615,9 @@ namespace ZapolnenieDOC
                 int countTable = document.Tables.Count;
                 var someList = new List<string>();
                 DataTable dataTable = new DataTable();
+                progressBar2.Value = 0;
 
-                for (int y = 1; y <= countTable; y++)
+            for (int y = 1; y <= countTable; y++)
                 {
 
                     
@@ -614,6 +636,7 @@ namespace ZapolnenieDOC
 
                         for (int i = 0; i < table.Columns.Count; i++)
                         {
+                           
                             progressBar2.Maximum = (countTable) * table.Columns.Count;
                             progressBar2.Value++;
 
@@ -623,13 +646,19 @@ namespace ZapolnenieDOC
                         {
                             string[] row = new string[table.Columns.Count];
                             for (int j = 0; j < table.Columns.Count; j++)
-                                row[j] = table.Cell(i + 2, j + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "");
+                                row[j] = table.Cell(i + 2, j + 1).Range.Text.Trim('a', 'r', 'n', 't').Replace("\r", " ").Replace("\a", "").Replace("\t", "").Replace("\v", " ");
 
 
 
                             DateTime d;
                             string dateConv = row[2].Replace("\a", "");
                             string tlFio = dateConv;
+                        if (string.IsNullOrEmpty(tlFio) || tlFio == " ")
+                        {
+                            tlFio = "0001-01-01 00:00:00.000";
+                        }
+                        try
+                        {
                             string[] b = tlFio.Split(new char[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries);
                             string o = b[0] + "." + b[1] + "." + b[2];
 
@@ -637,11 +666,15 @@ namespace ZapolnenieDOC
 
                                 d = Convert.ToDateTime(o);
                             else
-                                o = "2000-01-01 00:00:00.000";// Если дата введена не коретно то вводиться это число 2000-01-01 00:00:00.000
+                                o = "0001-01-01 00:00:00.000";// Если дата введена не коретно то вводиться это число 2000-01-01 00:00:00.000
                             d = Convert.ToDateTime(o);
 
                             row[2] = Convert.ToString(d);
-
+                        }
+                        catch
+                        {
+                            MessageBox.Show("данные у пользователя: "+row[1]+"неверные ");
+                        }
                             dataTable.Rows.Add(row);
 
 
